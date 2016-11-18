@@ -19,4 +19,4 @@ def fib(m):
     return t
 
 
-print fib(max)
+print(fib(max))

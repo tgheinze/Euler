@@ -16,4 +16,4 @@ for n in range(1000):
       #print n
       t += n
 
-print t
+print(t)
