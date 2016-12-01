@@ -10,4 +10,14 @@ __author__ = 'tgheinze'
 #
 # Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 
-x = 0
+max = 100
+def getInts(max):
+    for i in range(1, max+1):
+        yield i
+
+squares = [x**2 for x in getInts(max)]
+
+squaresSum = sum(squares)
+sumIntsSquared = sum(getInts(max))**2
+
+print(sumIntsSquared - squaresSum)
