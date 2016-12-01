@@ -3,3 +3,5 @@
 # What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
 
+ans = 16*9*5*7*11*13*17*19
+print(ans)
