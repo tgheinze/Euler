@@ -12,15 +12,17 @@ for i in range(0, s9):
 
 s2011 = ''.join(template)
 
-#7922816251426433759354395033
+#  64**2n   where sqrt(1005)+sqrt(1006) ~= 64
+#7922816251426433759354395033    8
+#22300745198530623141535718272648361505980416     12
 
-a = Decimal(2)
-b = Decimal(3)
+a = Decimal(713)
+b = Decimal(720)
 c = Decimal(.5)
-n = 2000
+n = 500
 reset = 50
 ans = 0
-prec = 4000
+prec = 6000
 getcontext().prec = prec
 
 while False:
@@ -45,19 +47,18 @@ while False:
         else:
             break
     print(n, '      ', i)
-    if i == 0 or i > 2011:
+    if i == 0:
         print("Resetting starting value of n")
         n -= reset
         continue
-        # return
-    # print(len(dec))
-    if dec[0:s9] == s2011:
+    if dec[0:s9] >= s2011:
         print('n: ', n, ' for (p,q) = (',a, ',',b, ')')
         ans += n
         break
-    if (2011 - i) > 2:
-        n += (2011 - i)
-        reset = 2
+    if (2011 - i) > 20:
+        print('increasing n by ', int((2011 - i - 20) / 2))
+        n += int((2011 - i - 10) / 2)
+        reset = 5
     else:
         n += 1
 
@@ -72,6 +73,9 @@ def getPairs(min):
 
     for p in range(1, 1006):
         for q in range(p + 1, 2012 - p):
+
+            if p % 100 == 0 and q == p+1: print(p)
+
             a = Decimal(p)
             b = Decimal(q)
             c = Decimal(.5)
@@ -106,83 +110,83 @@ def getPairs(min):
                 else:
                     break
             #print(n, '      ', i)
-            if i > 0:
+            if i > 6:
                 #print(a, b, i)
-                ans.append((a,b))
+                ans.append((p,q))
 
 
     print(ans)
     return ans
-pairs = getPairs(10)
-print(len(pairs))
-print(pairs)
+ppairs = getPairs(12)
+print('\n\n\n-------------------------------------------')
+
+#print(ppairs)
+print(' ')
+#print(len(ppairs))
 print('-------------------------------------------')
 
 
-def run(min):
-    ans1 = 0
+def run(pairs, start):
+
     ans = 0
 
-    for p in range(2, 1006):
-        for q in range(p + 1, 2012 - p):
-            a = Decimal(p)
-            b = Decimal(q)
-            c = Decimal(.5)
+    for pair in pairs:
+        p = pair[0]
+        q = pair[1]
+        a = Decimal(p)
+        b = Decimal(q)
+        c = Decimal(.5)
 
-            n = min
-            reset = 50
+        n = start
+        reset = 50
 
-            prec = 4000
-            getcontext().prec = prec
-            cont = True
-            while cont:
-                #print(n)
-                x = (a ** c + b ** c) ** (Decimal(2 * n))
-                dec = str(x - int(x))[1:2]
-                if dec != '.':
-                    print('resetting prec, length int part is at least', len(str(int(x))))
-                    prec += 1000
-                    getcontext().prec = prec
+        prec = 6000
+        getcontext().prec = prec
+        while True:
+            x = (a ** c + b ** c) ** (Decimal(2 * n))
+            dec = str(x - int(x))[1:2]
+            if dec != '.':
+                print('resetting prec, length int part is at least', len(str(int(x))))
+                prec += 1000
+                getcontext().prec = prec
+                continue
+            num = len(str(int(x)))
+            getcontext().prec = num + s9 + 10
+            x = (a ** c + b ** c) ** (Decimal(2 * n))
+            # print(x)
+            dec = str(x - int(x))[2:]
+            # print(dec)
+            i = 0
+            while True:
+                if dec[i] == '9':
+                    i += 1
                     continue
-                num = len(str(int(x)))
-                getcontext().prec = num + s9 + 10
-                x = (a ** c + b ** c) ** (Decimal(2 * n))
-                # print(x)
-                dec = str(x - int(x))[2:]
-                # print(dec)
-                i = 0
-                while True:
-                    if dec[i] == '9':
-                        i += 1
-                        continue
-                    else:
-                        break
-                print(n, '      ', i)
-                if i == 0 or i > 2011:
-                    print("Resetting starting value of n")
-                    n -= reset
-                    continue
-                    #return
-                # print(len(dec))
-                if dec[0:s9] == s2011:
-                    print('n: ', n, ' for (p,q) = (', p, ',', q, ')')
-                    ans += n
-                    if p == 1: ans1 += 1
-                    cont = False
-                    break
-                if (2011 - i) > 2:
-                    n += (2011 - i)
-                    reset = 2
                 else:
-                    n += 1
+                    break
+            print(n, '      ', i)
+            if i == 0:
+                print("Resetting starting value of n")
+                n -= reset
+                continue
+            if dec[0:s9] >= s2011:
+                print('n: ', n, ' for (p,q) = (', a, ',', b, ')')
+                ans += n
+                break
+            if (2011 - i) > 20:
+                print('increasing n by ', int((2011 - i - 20) / 2))
+                n += int((2011 - i - 10) / 2)
+                reset = 5
+            else:
+                n += 1
 
     print(ans)
-    print(ans1)
     return ans
 
 
 
-#run(2000)
+print(run(ppairs, 500))
+
+#print(run([(2,3), (2,1800), (75,588), (154,163), (713,720)], 500))
 
 
 
