@@ -17,3 +17,4 @@ for n in range(1000):
       t += n
 
 print(t)
+print('Euler 1')
